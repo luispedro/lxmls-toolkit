@@ -18,7 +18,7 @@ def read_blocks(ifname):
 
 def as_escaped(ifname):
     for block in read_blocks(ifname):
-        if block:
+        if block and len(block) <= 15:
             s = ''.join(block)
             s = s.encode('string-escape')
             yield s
