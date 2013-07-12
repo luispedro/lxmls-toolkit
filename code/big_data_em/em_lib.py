@@ -55,9 +55,26 @@ def partial_seq(sequence, initial_probabilities, transition_probabilities, emiss
 def reduce_partials(partials, smoothing):
     partials = list(partials)
     res = []
-    for pi in xrange(5):
-        res.append(sum(p[pi] for p in partials))
-    total_log_likelihood,initial_counts, transition_counts, emission_counts,final_counts = res
+    total_log_likelihood = 0
+    initial_counts = 0
+    transition_counts = 0
+    emission_counts = None
+    final_counts = 0
+    for p in partials:
+        partial_total_log_likelihood,\
+            partial_initial_counts, \
+            partial_transition_counts, \
+            partial_emission_counts, \
+            partial_final_counts = p
+        total_log_likelihood += partial_total_log_likelihood
+        initial_counts += partial_initial_counts
+        transition_counts += partial_transition_counts
+        # The following is needed for some version of scipy.sparse
+        if emission_counts is not None:
+            emission_counts = emission_counts + partial_emission_counts
+        else:
+            emission_counts = partial_emission_counts
+        final_counts += partial_final_counts
     emission_counts = emission_counts.toarray()
     initial_counts += smoothing
     transition_counts += smoothing
