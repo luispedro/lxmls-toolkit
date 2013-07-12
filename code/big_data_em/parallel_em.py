@@ -8,12 +8,7 @@ import pickle
 
 from em_lib import *
 
-mapping = {}
-for line in open('readers/en-ptb.map'):
-    coarse,fine = line.strip().split("\t")
-    mapping[coarse.lower()] = fine.lower()
-
-word_dict, tag_dict = pickle.load(open('word_tag_dict.pkl'))
+word_dict, tag_dict, mapping = pickle.load(open('word_tag_dict_mapping.pkl'))
 num_states = len(tag_dict)
 num_observations = len(word_dict)
 smoothing = 0.1
