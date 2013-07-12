@@ -3,7 +3,6 @@ from mrjob.protocol import PickleProtocol, PickleValueProtocol
 import sys
 sys.path.append('.')
 import numpy as np
-import readers.pos_corpus as pcc
 import pickle
 
 from em_lib import *
